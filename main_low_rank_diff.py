@@ -252,10 +252,10 @@ if __name__ == '__main__':
 
     sanity_check = True
     modeltype2path = {
-        'llama2-7b-hf': '',
         'llama2-7b-chat-hf': '',
-        'llama2-13b-hf': '',
         'llama2-13b-chat-hf': '',
+        'llama2-7b-hf': '',
+        'llama2-13b-hf': '',
     }
 
     def get_llm(model_name, cache_dir="llm_weights"):
@@ -327,7 +327,7 @@ if __name__ == '__main__':
 
             if True:
                 # note: since vLLM only supports loading from the path, we need to save the pruned model first for faster evaluation. We can reuse this temp folder to save disk spaces
-                pruned_path = os.path.join('tmp', f'_vllm_tmp')
+                pruned_path = os.path.join('temp', f'_vllm_tmp')
                 model.save_pretrained(pruned_path)
                 vllm_model = LLM(model=pruned_path, tokenizer=modeltype2path[args.model], dtype='bfloat16', swap_space=128)
                 if True:

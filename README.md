@@ -53,7 +53,7 @@ python main.py \
 ```
 ### 2.2 Pruning the least safety-critical neurons.
 
-Simply remove ``--neg_prune`` will reverse the order of pruning.
+Simply remove ``--neg_prune`` will reverse the order of pruning. We recomment to use ``align_short`` (safety-short in our paper) when pruning the least safety-critical neurons to get more obvious results.
 
 
 ### 2.2 Pruning based on Set Difference
@@ -72,6 +72,7 @@ python main.py \
     --model $model \
     --prune_method $method \
     --sparsity_ratio 0.5 \
+    --prune_data align
     --p 0.1\
     --q 0.1\
     --sparsity_type $type \
@@ -137,8 +138,7 @@ Similar as 3.1, but here we don't need to add ``--top_remove`` in the command li
 model="llama2-7b-chat-hf"
 method="low_rank"
 type="unstructured"
-suffix="weightonly"
-save_dir="out/$model/$type/${method}_${suffix}/align_short/"
+save_dir="out/$model/$type/${method}/align_short/"
 
 python main_low_rank.py \
     --model $model \
@@ -159,21 +159,16 @@ model="llama2-7b-chat-hf"
 type="unstructured"
 ru=3000
 rs=4000
-suffix="weightonly"
 method="low_rank_diff"
-save_dir="out/$model/$type/${method}_${suffix}/align_short/"
+save_dir="out/$model/$type/${method}/align/"
 
 python main_low_rank_diff.py \
     --model $model \
-    --prune_method $method \
-    --prune_data align_short \
     --rank_pos $ru \
     --rank_neg $rs \
-    --prun_data_pos "alpaca_cleaned_no_safety" \
-    --prun_data_neg "align" \
-    --top_remove \
+    --prune_data_pos "alpaca_cleaned_no_safety" \
+    --prune_data_neg "align" \
     --save $save_dir \
     --eval_zero_shot \
     --eval_attack \
-    --save_attack_res 
 ```
