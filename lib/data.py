@@ -21,16 +21,14 @@ class TokenizerWrapper:
 def get_align(nsamples, seed, seqlen, tokenizer, disentangle=False, mode='base'):
     # Load train and test datasets
     if mode == 'short':
-        data_files = {"train": "./data/SFT_aligned_llama2-7b-chat-hf_train_short.csv", "test": "./data/SFT_aligned_llama2-7b-chat-hf_test_short.csv"}
+        data_files = {"train": "./data/SFT_aligned_llama2-7b-chat-hf_train_short.csv"}
     else:
-        data_files = {"train": "./data/SFT_aligned_llama2-7b-chat-hf_train.csv", "test": "./data/SFT_aligned_llama2-7b-chat-hf_test.csv"}
+        data_files = {"train": "./data/SFT_aligned_llama2-7b-chat-hf_train.csv"}
     traindata = load_dataset("csv", data_files=data_files, split="train")
-    testdata = load_dataset("csv", data_files=data_files, split="test")
     trainloader = []
     random.seed(seed)
     if disentangle:
         traindata_sampled = traindata.shuffle(seed=seed).select(range(nsamples))
-        testenc = tokenizer("\n\n".join(testdata['text']), return_tensors='pt') # testenc is the same for both entangled and disentangled version
         for i in range(nsamples):
             trainenc_prompt = tokenizer(traindata_sampled['prompt'][i], return_tensors='pt')
             trainenc_response = tokenizer(traindata_sampled['response'][i], return_tensors='pt')
@@ -42,7 +40,6 @@ def get_align(nsamples, seed, seqlen, tokenizer, disentangle=False, mode='base')
     else:
     # Encode datasets
         trainenc = tokenizer(" ".join(traindata['text']), return_tensors='pt')
-        testenc = tokenizer("\n\n".join(testdata['text']), return_tensors='pt')
 
         # Generate samples from training set
         for _ in range(nsamples):
@@ -52,7 +49,7 @@ def get_align(nsamples, seed, seqlen, tokenizer, disentangle=False, mode='base')
             tar = inp.clone()
             tar[:, :-1] = -100
             trainloader.append((inp, tar))
-    return trainloader, testenc
+    return trainloader, None
 
 
 
