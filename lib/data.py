@@ -110,37 +110,6 @@ def get_alpaca(nsamples, seed, seqlen, tokenizer, disentangle=False, dataset="al
     return trainloader, None
 
 
-# Load and process c4 dataset
-def get_c4(nsamples, seed, seqlen, tokenizer):
-    # Load train and validation datasets
-    traindata = load_dataset("allenai/c4", split="train")
-    valdata = load_dataset("allenai/c4", split="validation")
-    # traindata = load_dataset('allenai/c4', 'allenai--c4', data_files={'train': 'en/c4-train.00000-of-01024.json.gz'}, split='train')
-    # valdata = load_dataset('allenai/c4', 'allenai--c4', data_files={'validation': 'en/c4-validation.00000-of-00008.json.gz'}, split='validation')
-
-    # Generate samples from training set
-    random.seed(seed)
-    trainloader = []
-    for _ in range(nsamples):
-        while True:
-            i = random.randint(0, len(traindata) - 1)
-            trainenc = tokenizer(traindata[i]["text"], return_tensors="pt")
-            if trainenc.input_ids.shape[1] > seqlen:
-                break
-        i = random.randint(0, trainenc.input_ids.shape[1] - seqlen - 1)
-        j = i + seqlen
-        inp = trainenc.input_ids[:, i:j]
-        tar = inp.clone()
-        tar[:, :-1] = -100
-        trainloader.append((inp, tar))
-
-    # Prepare validation dataset
-    valenc = tokenizer(" ".join(valdata[:1100]["text"]), return_tensors="pt")
-    valenc = valenc.input_ids[:, : (256 * seqlen)]
-    valenc = TokenizerWrapper(valenc)
-    return trainloader, valenc
-
-
 # Function to select the appropriate loader based on dataset name
 def get_loaders(
     name, nsamples=128, seed=0, seqlen=2048, tokenizer=None, disentangle=False
@@ -149,8 +118,6 @@ def get_loaders(
         return get_wikitext2(nsamples, seed, seqlen, tokenizer)
     if name in ["alpaca", "alpaca_cleaned", "alpaca_cleaned_no_safety"]:
         return get_alpaca(nsamples, seed, seqlen, tokenizer, disentangle, dataset=name)
-    if name == "c4":
-        return get_c4(nsamples, seed, seqlen, tokenizer)
     if name == "align":
         return get_align(nsamples, seed, seqlen, tokenizer, disentangle=disentangle)
     if name == "align_short":
