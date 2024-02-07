@@ -22,7 +22,7 @@ Before running experiments, make sure you have specified the path pointing to th
 The main function is ``main.py``. When using Top-down pruning, we need to add ``--neg_prune`` in the command line.
 
 Important parameters are:
-1. ``--prune_merhod``: To specify prune method. Available options are ``wanda``, ``wandg`` (SNIP in the paper), ``random``.
+1. ``--prune_method``: To specify prune method. Available options are ``wanda``, ``wandg`` (SNIP in the paper), ``random``.
 2. ``--prune_data``: To specify datasets used for pruning. When doing top-down pruning safety-critical neurons, we can use ``align``(safety-full in the paper) and ``align_short`` (safety-short in the paper) as our dataset.
 3. ``--sparsity_ratio``: Specify the prune sparsity.
 4. ``--eval_zero_shot``: Whether to evaluate the model's zero-shot-accuracy after pruning
@@ -61,6 +61,8 @@ Simply remove ``--neg_prune`` will reverse the order of pruning. We recomment to
 
 Select option ``--prune_method`` as ``wandg_set_difference``. Add option ``--p``, which correspond to top-p scored entries in alpaca_no_safety-based wandg score; Add option ``-q``, which correspones to top-q scored entries in aligned-based wandg score. Please notice that you have to specify a non-zero value of ``--sparsity_ratio``. ``--prune_data`` is not required.
 
+Example: Prune the neurons based on the set difference between top-10% utility critical regions (identified by ``alpaca_cleaned_no_safety``) and top-10% safety critical regions (identified by ``align``/safety-full in our paper), with ``llama-2-chat-7b-hf``
+
 ```bash
 model="llama2-7b-chat-hf"
 method="wandg_set_difference"
@@ -87,8 +89,8 @@ python main.py \
 
 Simply add option `--dump_wanda_score` into the command.
 
-Example:
-Safety-first pruning with align_llama2-7b-chat dataset:
+Example:Safety-first pruning with align_llama2-7b-chat dataset:
+
 ```bash
 model="llama2-7b-chat-hf"
 method="wanda"
@@ -110,7 +112,9 @@ python main.py \
 
 ### 3.1 Remove the most safety-critical rank
 
-The main function of this pipeline is ``main_low_rank.py``. We need to add ``--top_remove`` in the command line. Example: Prune the top-10 safty-critical rank based on safety-full("align" in the code) dataset.
+The main function of this pipeline is ``main_low_rank.py``. We need to add ``--top_remove`` in the command line. 
+
+Example: Prune the top-10 safty-critical rank based on safety-full("align" in the code) dataset.
 
 ```bash
 model="llama2-7b-chat-hf"
@@ -132,7 +136,9 @@ python main_low_rank.py \
 ```
 
 ### 3.2 Remove the least safety-critical ranks
-Similar as 3.1, but here we don't need to add ``--top_remove`` in the command line. Example: Prune the bottom-1000 safty-critical rank based on safety-short("align_short" in the code) dataset.
+Similar as 3.1, but here we don't need to add ``--top_remove`` in the command line. 
+
+Example: Prune the bottom-1000 safty-critical rank based on safety-short("align_short" in the code) dataset.
 
 ```bash
 model="llama2-7b-chat-hf"
@@ -153,7 +159,10 @@ python main_low_rank.py \
 ```
 
 ### 3.3 Remove rank with orthogonal projection
-The main function of this program is ``main_low_rank_diff.py``. Example: Prune based on rank-3000 utility projection matrix and rank-4000 safety projection matrix on alpaca_cleaned_no_safety (filtered alpaca_cleaned dataset without safety related prompt-response pairs) and safety-full on llama2-7b-chat.
+The main function of this program is ``main_low_rank_diff.py``. 
+
+Example: Prune based on rank-3000 utility projection matrix and rank-4000 safety projection matrix on alpaca_cleaned_no_safety (filtered alpaca_cleaned dataset without safety related prompt-response pairs) and safety-full on llama2-7b-chat.
+
 ```bash
 model="llama2-7b-chat-hf"
 type="unstructured"
