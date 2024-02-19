@@ -1,6 +1,6 @@
 # Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications
 
-This is the code for the paper: [*Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications*](https://arxiv.org/abs/2402.05162)
+This repository provides an original implementation of [*Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications*](https://arxiv.org/abs/2402.05162) by Boyi Wei*, Kaixuan Huang*, Yangsibo Huang*, Tinghao Xie, Xiangyu Qi, Mengzhou Xia, Prateek Mittal, Mengdi Wang and Peter Henderson.
 
 ## 1. Setup
 
