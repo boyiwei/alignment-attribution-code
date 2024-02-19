@@ -1,4 +1,6 @@
-# Alignment Attribution
+# Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications
+
+This is the code for the paper: [*Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications*](https://arxiv.org/abs/2402.05162)
 
 ## 1. Setup
 
