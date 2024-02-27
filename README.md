@@ -10,7 +10,7 @@ conda env create -f environment.yml
 ```
 Please notice that you need to specify your environment path inside ``environment.yml``
 
-Besides, you need to manually install a hacked version of lm_eval to support evaluating the pruned model. See [wanda](https://github.com/locuslab/wanda).
+Besides, you need to manually install a hacked version of lm_eval to support evaluating the pruned model. See [wanda](https://github.com/locuslab/wanda?tab=readme-ov-file#zero-shot-evaluation).
 
 There are known [issues](https://github.com/huggingface/transformers/issues/22222) with the transformers library on loading the LLaMA tokenizer correctly. Please follow the mentioned suggestions to resolve this issue.
 
