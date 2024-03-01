@@ -61,7 +61,7 @@ Simply remove ``--neg_prune`` will reverse the order of pruning. We recommend us
 ### 2.2 Pruning based on Set Difference
 
 
-Select option ``--prune_method`` as ``wandg_set_difference`` (SNIP with set difference in our paper). Add option ``--p``, which corresponds to top-p scored entries in alpaca_no_safety-based wandg score; Add option ``-q``, which corresponds to top-q scored entries in aligned-based wandg score. Please notice that you have to specify a non-zero value of ``--sparsity_ratio``. For the dataset to compute the utility importance score, we use``alpaca_cleaned_no_safety `` by default, ``--prune_data`` here is used to specify the dataset to compute the safety importance score. Available options are ``align`` (safety-full in our paper) and ``align_short`` (safety-short in our paper)
+Select option ``--prune_method`` as ``wandg_set_difference`` (SNIP with set difference in our paper). Add option ``--p``, which corresponds to top-p scored entries in alpaca_no_safety-based wandg score; Add option ``--q``, which corresponds to top-q scored entries in aligned-based wandg score. Please notice that you have to specify a non-zero value of ``--sparsity_ratio``. For the dataset to compute the utility importance score, we use``alpaca_cleaned_no_safety `` by default, ``--prune_data`` here is used to specify the dataset to compute the safety importance score. Available options are ``align`` (safety-full in our paper) and ``align_short`` (safety-short in our paper)
 
 Example: Pruning the set difference between top-10% utility-critical neurons (Use alpaca_cleaned_no_safety dataset to identify) and top-10% safety-critical (Use safety-full to identify) safety neurons. 
 
