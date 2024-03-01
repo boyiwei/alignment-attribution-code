@@ -147,7 +147,7 @@ python main_low_rank.py \
 ### 3.2 Remove the least safety-critical ranks
 Similar to 3.1, but here we don't need to add ``--top_remove`` in the command line. 
 
-Example: Prune the bottom-1000 safety-critical rank based on the safety-short(``align_short`` in the code) dataset.
+Example: Remove the bottom-1000 safety-critical rank based on the safety-short(``align_short`` in the code) dataset.
 
 ```bash
 model="llama2-7b-chat-hf"
