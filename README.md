@@ -202,10 +202,9 @@ python main_low_rank_diff.py \
 ## 4. BibTeX
 If you find our code and paper helpful, please consider citing our work:
 ```bibtex
-@article{wei2024assessing,
+@inproceedings{weiassessing,
   title={Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications},
   author={Wei, Boyi and Huang, Kaixuan and Huang, Yangsibo and Xie, Tinghao and Qi, Xiangyu and Xia, Mengzhou and Mittal, Prateek and Wang, Mengdi and Henderson, Peter},
-  journal={arXiv preprint arXiv:2402.05162},
-  year={2024}
+  booktitle={Forty-first International Conference on Machine Learning}
 }
 ```
